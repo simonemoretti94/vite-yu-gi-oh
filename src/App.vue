@@ -15,24 +15,7 @@ export default {
       store, //store.js variables
     }
   },
-  methods: { //functions; all kind of manipulations
-    // cardsMaker(url) {
-    //   for (let i = 0; i < 15; i++) {
-    //     axios.get(this.store.yuGiOhAPI)
-    //       .then((response) => {
-    //         this.store.cards.push(response.data.data[i]);
-    //         //console.log('response.data.data[i].card_images[0]', response.data.data[i].card_images[0]);
-    //       })
-    //       .catch(function (err) {
-    //         console.log(err);
-    //       });
-    //   };
-
-    // },
-
-  },
   created() {
-    //this.cardsMaker(this.store.yuGiOhAPI);
     this.store.cardsMaker(this.store.yuGiOhAPI);
   },
 

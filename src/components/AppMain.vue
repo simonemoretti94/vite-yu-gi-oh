@@ -3,10 +3,6 @@
 
 export default {
     name: 'AppMain',
-    components: { //imported components 
-        //*,
-
-    },
     data() { //variables, bool, array, objects and so on
 
         return {
@@ -19,9 +15,6 @@ export default {
         archetype: String,
 
     },
-    mounted() {
-        //console.log('url img log: ', this.tempUrl);
-    }
 }
 </script>
 
