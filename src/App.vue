@@ -1,5 +1,5 @@
 <script>
-import { store } from './store';
+import { state } from './state';
 import AppHeader from './components/AppHeader.vue';
 import AppMain from './components/AppMain.vue';
 
@@ -12,12 +12,34 @@ export default {
   data() { //variables, bool, array, objects and so on
 
     return {
-      store, //store.js variables
+      state, //store.js variables
     }
   },
   created() {
-    this.store.cardsMaker(this.store.yuGiOhAPI);
+    this.state.fetchArchetype(this.state.yuGiOhArchetype);
   },
+  mounted() {
+    this.state.cardsMaker(this.state.yuGiOhAPI);
+
+  },
+  methods: {
+    filterResults() {
+      let url = '';
+
+      console.log('selected value: ', state.selectedArchetype);
+
+      if (state.selectedArchetype === '') {
+        url = state.yuGiOhAPI;
+      }
+      else {
+        url = `${state.yuGiOhAPI}?archetype=${state.selectedArchetype}`;
+      }
+
+      console.log(url);
+      state.cards = [];
+      state.cardsMaker(url);
+    }
+  }
 
 
 }
@@ -26,19 +48,18 @@ export default {
 <template>
   <AppHeader></AppHeader>
   <div class="container">
-    <select name="status" id="status" v-on:click="store.typeSelect($event)">
+    <select name="status" id="status" v-model="state.selectedArchetype" @change="filterResults()">
       <option value="" selected>All</option>
-      <option value="Alien">Alien</option>
-      <option value="Noble knight">Noble Knight</option>
-      <option value="Infernoble Arms">Infernoble Arms</option>
+      <option v-for="archetype in state.archetypeList" :value="archetype.archetype_name">{{ archetype.archetype_name }}
+      </option>
     </select>
 
     <div class="wrapper">
       <div id="card_counter" class="d-flex justify-content-start align-items-center">
-        <span>Found {{ store.cards.length }} cards</span>
+        <span>Found {{ state.cards.length }} cards</span>
       </div>
       <div class="row d-flex flex-row justify-content-between">
-        <AppMain v-for="element in store.cards" :url="element.card_images[0].image_url" :name="element.name"
+        <AppMain v-for="element in state.cards" :url="element.card_images[0].image_url" :name="element.name"
           :archetype="element.archetype">
         </AppMain>
       </div>
